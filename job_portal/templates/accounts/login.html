@@ -5,14 +5,14 @@
     <div class="col-md-5">
 
         <div class="card shadow p-4">
-            <h3 class="text-center mb-3">Register</h3>
+            <h3 class="text-center mb-3">Login</h3>
 
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
 
-                <button class="btn w-100 mt-2 register-btn">
-                    Register
+                <button class="btn w-100 mt-2 login-btn">
+                    Login
                 </button>
             </form>
 
