@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from applications.models import Application
 from .models import Job
 from .forms import JobForm
-
+from datetime import date
 
 # Job listing page
 @login_required
@@ -59,6 +59,7 @@ def job_detail(request, job_id):
     context = {
         "job": job,
         "applied": applied,
+        "today": date.today()
     }
 
     return render(request, "jobs/job_detail.html", context)
