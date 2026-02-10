@@ -19,6 +19,12 @@
         {% endif %}
       </h5>
 
+      {% if job.application_deadline %}
+            <small class="text-danger">
+                Apply before: {{ job.application_deadline }}
+            </small>
+        {% endif %}
+
       <p><strong>Company:</strong> {{ job.company }}</p>
       <p><strong>Location:</strong> {{ job.location }}</p>
 
@@ -28,7 +34,7 @@
       <small class="text-muted">
             Posted {{ job.created_at|timesince }} ago
         </small>
-        
+
       <small class="text-muted"> Posted by {{ job.recruiter.username }} </small>
     </div>
   </div>

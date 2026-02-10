@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>Applicants for {{ job.title }}</h3>
+
+{% for app in applications %}
+<div class="card p-3 mb-3">
+
+    <strong>{{ app.user.username }}</strong>
+
+    <p>Applied {{ app.applied_at|timesince }} ago</p>
+
+    <p>
+        Status:
+        <strong>{{ app.status }}</strong>
+    </p>
+
+    {% if app.status == "Applied" %}
+
+        <a href="{% url 'update_application_status' app.id 'Accepted' %}"
+           class="btn btn-success btn-sm">
+           Accept
+        </a>
+
+        <a href="{% url 'update_application_status' app.id 'Rejected' %}"
+           class="btn btn-danger btn-sm">
+           Reject
+        </a>
+
+    {% elif app.status == "Accepted" %}
+
+        <button class="btn btn-success btn-sm" disabled>
+            Accepted ✓
+        </button>
+
+    {% else %}
+
+        <button class="btn btn-danger btn-sm" disabled>
+            Rejected ✗
+        </button>
+
+    {% endif %}
+
+</div>
+
+{% empty %}
+<p>No applications yet.</p>
+{% endfor %}
+
+{% endblock %}

@@ -24,6 +24,14 @@
                     Welcome, {{ user.username }}
                 </span>
 
+                {% if user.role != "recruiter" %}
+                <a href="{% url 'my_applications' %}"
+                class="btn btn-outline-light me-2">
+                My Applications
+                </a>
+                {% endif %}
+
+
                 <form action="{% url 'logout' %}" method="post" class="d-inline">
                     {% csrf_token %}
                     <button class="btn btn-danger btn-sm">

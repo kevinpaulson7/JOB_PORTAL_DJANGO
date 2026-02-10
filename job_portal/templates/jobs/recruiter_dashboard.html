@@ -1,6 +1,31 @@
 {% extends "base.html" %}
-
 {% block content %}
-<h2>Recruiter Dashboard</h2>
-<p>Welcome recruiter!</p>
+
+<h2 class="mb-4">Recruiter Dashboard</h2>
+
+{% for job in jobs %}
+<div class="card shadow p-3 mb-4">
+
+    <h5>{{ job.title }}</h5>
+
+    <p>
+        Applications:
+        {{ job.application_set.count }}
+    </p>
+
+    <div class="text-center mt-2">
+        <a href="{% url 'view_applicants' job.id %}"
+        class="btn btn-primary btn-sm"
+        style="width: 400px;">
+            View Applicants
+        </a>
+    </div>
+
+
+</div>
+
+{% empty %}
+<p>You haven't posted jobs yet.</p>
+{% endfor %}
+
 {% endblock %}

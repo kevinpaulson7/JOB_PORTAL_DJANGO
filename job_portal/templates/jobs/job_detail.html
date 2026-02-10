@@ -1,30 +1,55 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+{% block content %}
+
 <div class="row justify-content-center">
   <div class="col-md-8">
+
     <div class="card shadow p-4">
+
       <h3>{{ job.title }}</h3>
+
+      {% if job.application_deadline %}
+          <p class="text-danger">
+              Apply before: {{ job.application_deadline }}
+          </p>
+      {% endif %}
 
       <p><strong>Company:</strong> {{ job.company }}</p>
       <p><strong>Location:</strong> {{ job.location }}</p>
       <p><strong>Salary:</strong> {{ job.salary }}</p>
 
-      <hr />
+      <hr>
 
       <p>{{ job.description }}</p>
 
       <p class="text-muted">
-            Posted {{ job.created_at|timesince }} ago
-        </p>
+          Posted {{ job.created_at|timesince }} ago
+      </p>
 
+      {% if user.role != "recruiter" %}
 
-      {% if user.role != "recruiter" %} {% if applied %}
-      <button class="btn btn-secondary w-100 mt-3" disabled>Applied ✓</button>
-      {% else %}
-      <a href="{% url 'apply_job' job.id %}" class="btn btn-success w-100 mt-3">
-        Apply Job
-      </a>
-      {% endif %} {% endif %}
+          {% if job.application_deadline and job.application_deadline < today %}
+              <button class="btn btn-danger w-100 mt-3" disabled>
+                  Deadline Passed
+              </button>
+
+          {% elif applied %}
+              <button class="btn btn-secondary w-100 mt-3" disabled>
+                  Applied ✓
+              </button>
+
+          {% else %}
+              <a href="{% url 'apply_job' job.id %}"
+                 class="btn btn-success w-100 mt-3">
+                 Apply Job
+              </a>
+          {% endif %}
+
+      {% endif %}
+
     </div>
+
   </div>
 </div>
+
 {% endblock %}

@@ -11,6 +11,7 @@ class JobForm(forms.ModelForm):
             "location",
             "description",
             "salary",
+            "application_deadline"
         ]
 
         widgets = {
@@ -34,5 +35,9 @@ class JobForm(forms.ModelForm):
                 "class": "form-control",
                 "rows": 5,
                 "placeholder": "Describe the job role..."
+            }),
+            "application_deadline": forms.DateInput(attrs={
+                "class": "form-control",
+                "type": "date"
             }),
         }
