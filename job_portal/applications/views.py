@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect,render
 from django.contrib.auth.decorators import login_required
 from .models import Application
 from jobs.models import Job
@@ -36,3 +36,15 @@ def apply_job(request, job_id):
 
     return redirect("job_detail", job_id=job.id)
 
+@login_required
+def my_applications(request):
+
+    applications = Application.objects.filter(
+        user=request.user
+    ).order_by("-applied_at")
+
+    return render(
+        request,
+        "applications/my_applications.html",
+        {"applications": applications},
+    )

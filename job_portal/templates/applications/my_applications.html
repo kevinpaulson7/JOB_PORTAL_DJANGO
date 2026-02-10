@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>My Applications</h3>
+
+{% for app in applications %}
+<div class="card p-3 mb-3">
+
+    <h5>{{ app.job.title }}</h5>
+
+    <p><strong>Company:</strong> {{ app.job.company }}</p>
+    <p><strong>Location:</strong> {{ app.job.location }}</p>
+
+    <p>
+        Status:
+        <strong>{{ app.status }}</strong>
+    </p>
+
+    <small class="text-muted">
+        Applied {{ app.applied_at|timesince }} ago
+    </small>
+
+    <div class="mt-2">
+        <a href="{% url 'job_detail' app.job.id %}"
+           class="btn btn-primary btn-sm">
+           View Job
+        </a>
+    </div>
+
+</div>
+
+{% empty %}
+<p>You haven't applied to any jobs yet.</p>
+{% endfor %}
+
+{% endblock %}
