@@ -1,5 +1,40 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
+<h2 class="mb-4">Available Jobs</h2>
 
-{% block content %}
-<h2>Job Listings Page</h2>
+{% if user.role == "recruiter" %}
+<a href="{% url 'create_job' %}" class="btn btn-primary mb-3"> Post Job </a>
+{% endif %}
+
+<div class="row">
+  {% for job in jobs %}
+  <div class="col-md-6 mb-3">
+    <div class="card shadow p-3">
+      <h5>
+        <a href="{% url 'job_detail' job.id %}"> {{ job.title }} </a>
+
+        {% if job.id in applied_jobs %}
+            <span class="badge bg-success ms-2">
+                Applied
+            </span>
+        {% endif %}
+      </h5>
+
+      <p><strong>Company:</strong> {{ job.company }}</p>
+      <p><strong>Location:</strong> {{ job.location }}</p>
+
+
+      <p>{{ job.description|truncatewords:20 }}</p>
+
+      <small class="text-muted">
+            Posted {{ job.created_at|timesince }} ago
+        </small>
+        
+      <small class="text-muted"> Posted by {{ job.recruiter.username }} </small>
+    </div>
+  </div>
+  {% empty %}
+  <p>No jobs available.</p>
+  {% endfor %}
+</div>
+
 {% endblock %}
