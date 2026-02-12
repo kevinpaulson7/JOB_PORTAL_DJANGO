@@ -9,6 +9,7 @@ class JobForm(forms.ModelForm):
             "title",
             "company",
             "location",
+            "job_type",
             "description",
             "salary",
             "application_deadline"
@@ -27,6 +28,11 @@ class JobForm(forms.ModelForm):
                 "class": "form-control",
                 "placeholder": "Job location"
             }),
+
+            "job_type": forms.Select(attrs={
+                "class":"form-control"
+            }),
+
             "salary": forms.TextInput(attrs={
                 "class": "form-control",
                 "placeholder": "Salary range"

@@ -6,6 +6,17 @@ from django.conf import settings
 
 
 class Job(models.Model):
+    JOB_TYPE_CHOICES = (
+        ("fulltime", "Full Time"),
+        ("micro", "Local / Micro Job"),
+    )
+
+    job_type = models.CharField(
+        max_length=20,
+        choices=JOB_TYPE_CHOICES,
+        default="fulltime"
+    )
+    
     recruiter = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
@@ -20,6 +31,9 @@ class Job(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     application_deadline = models.DateField(null=True, blank=True)
+
+    
+
 
 
     def __str__(self):

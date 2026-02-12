@@ -5,35 +5,53 @@
 <a href="{% url 'create_job' %}" class="btn btn-primary mb-3"> Post Job </a>
 {% endif %}
 
+<div class="mb-3">
+    <a href="{% url 'job_list' %}"
+       class="btn btn-outline-primary btn-sm">
+       All Jobs
+    </a>
+
+    <a href="?type=fulltime"
+       class="btn btn-outline-success btn-sm">
+       Full Time
+    </a>
+
+    <a href="?type=micro"
+       class="btn btn-outline-warning btn-sm">
+       Local / Micro
+    </a>
+</div>
+
 <div class="row">
   {% for job in jobs %}
   <div class="col-md-6 mb-3">
     <div class="card shadow p-3">
       <h5>
+        {% if job.job_type == "micro" %}
+        <span class="badge bg-warning text-dark"> Local / Micro Job </span>
+        {% endif %}
+
         <a href="{% url 'job_detail' job.id %}"> {{ job.title }} </a>
 
         {% if job.id in applied_jobs %}
-            <span class="badge bg-success ms-2">
-                Applied
-            </span>
+        <span class="badge bg-success ms-2"> Applied </span>
         {% endif %}
       </h5>
 
       {% if job.application_deadline %}
-            <small class="text-danger">
-                Apply before: {{ job.application_deadline }}
-            </small>
-        {% endif %}
+      <small class="text-danger">
+        Apply before: {{ job.application_deadline }}
+      </small>
+      {% endif %}
 
       <p><strong>Company:</strong> {{ job.company }}</p>
       <p><strong>Location:</strong> {{ job.location }}</p>
 
-
       <p>{{ job.description|truncatewords:20 }}</p>
 
       <small class="text-muted">
-            Posted {{ job.created_at|timesince }} ago
-        </small>
+        Posted {{ job.created_at|timesince }} ago
+      </small>
 
       <small class="text-muted"> Posted by {{ job.recruiter.username }} </small>
     </div>

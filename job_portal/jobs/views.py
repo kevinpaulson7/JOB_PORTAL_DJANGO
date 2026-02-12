@@ -6,10 +6,20 @@ from .models import Job
 from .forms import JobForm
 from datetime import date
 
+
+def home(request):
+    return render(request, "home.html")
+
 # Job listing page
 @login_required
 def job_list(request):
+
+    job_type = request.GET.get("type")
+
     jobs = Job.objects.all().order_by("-created_at")
+
+    if job_type:
+        jobs = jobs.filter(job_type=job_type)
 
     applied_jobs = Application.objects.filter(
         user=request.user
@@ -21,6 +31,7 @@ def job_list(request):
     }
 
     return render(request, "jobs/job_list.html", context)
+
 
 
 # Recruiter dashboard
