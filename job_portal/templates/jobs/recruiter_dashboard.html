@@ -1,31 +1,64 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2 class="mb-4">Recruiter Dashboard</h2>
+<div class="container mt-5">
 
-{% for job in jobs %}
-<div class="card shadow p-3 mb-4">
+  <h2 class="fw-bold mb-4 text-center">
+    Recruiter Dashboard
+  </h2>
 
-    <h5>{{ job.title }}</h5>
+  <div class="row">
 
-    <p>
-        Applications:
-        {{ job.application_set.count }}
-    </p>
+    {% for job in jobs %}
+    <div class="col-md-6 mb-4">
 
-    <div class="text-center mt-2">
-        <a href="{% url 'view_applicants' job.id %}"
-        class="btn btn-primary btn-sm"
-        style="width: 400px;">
+      <div class="dashboard-card p-4">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+          <div>
+            <h5 class="fw-bold mb-1">
+              {{ job.title }}
+            </h5>
+
+            <p class="text-muted small mb-0">
+              {{ job.company }} • {{ job.location }}
+            </p>
+          </div>
+
+          {% if job.job_type == "micro" %}
+            <span class="badge bg-warning text-dark">
+              Micro
+            </span>
+          {% endif %}
+
+        </div>
+
+        <hr>
+
+        <div class="d-flex justify-content-between align-items-center">
+
+          <span class="text-muted">
+            Applicants:
+            <strong>{{ job.application_set.count }}</strong>
+          </span>
+
+          <a href="{% url 'view_applicants' job.id %}"
+             class="btn btn-primary btn-sm">
             View Applicants
-        </a>
-    </div>
+          </a>
 
+        </div>
+
+      </div>
+
+    </div>
+    {% empty %}
+      <p class="text-center">No jobs posted yet.</p>
+    {% endfor %}
+
+  </div>
 
 </div>
-
-{% empty %}
-<p>You haven't posted jobs yet.</p>
-{% endfor %}
 
 {% endblock %}

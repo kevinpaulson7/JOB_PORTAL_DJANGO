@@ -14,49 +14,89 @@
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="/jobs/">Job Portal</a>
+<nav class="navbar navbar-expand-lg navbar-light custom-navbar">
+  <div class="container">
 
-        <div class="ms-auto">
-            {% if user.is_authenticated %}
-                <span class="text-white me-3">
-                    Welcome, {{ user.username }}
-                </span>
+    <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+      JobPortal
+    </a>
 
-                {% if user.role != "recruiter" %}
-                <a href="{% url 'my_applications' %}"
-                class="btn btn-outline-light me-2">
-                My Applications
-                </a>
-                {% endif %}
+    <div class="ms-auto d-flex align-items-center gap-2">
 
+      <a href="{% url 'job_list' %}" class="btn btn-outline-primary btn-sm">
+        Jobs
+      </a>
 
-                <form action="{% url 'logout' %}" method="post" class="d-inline">
-                    {% csrf_token %}
-                    <button class="btn btn-danger btn-sm">
-                        Logout
-                    </button>
-                </form>
+      {% if user.is_authenticated %}
 
-            {% else %}
-                <a href="{% url 'login' %}" class="btn btn-outline-light me-2">
-                    Login
-                </a>
+        {% if user.role != "recruiter" %}
+          <a href="{% url 'my_applications' %}"
+             class="btn btn-outline-success btn-sm">
+             My Applications
+          </a>
+        {% endif %}
 
-                <a href="{% url 'register' %}" class="btn btn-success">
-                    Register
-                </a>
-            {% endif %}
-        </div>
+        {% if user.role == "recruiter" %}
+          <a href="{% url 'create_job' %}"
+             class="btn btn-success btn-sm">
+             Post Job
+          </a>
+        {% endif %}
+
+        <!-- ✅ NEW: Username & Role -->
+        <span class="fw-semibold text-dark ms-2">
+          👋 {{ user.username }}
+        </span>
+
+        <span class="badge bg-secondary">
+          {{ user.role|title }}
+        </span>
+
+        <form action="{% url 'logout' %}" method="post" class="ms-2">
+          {% csrf_token %}
+          <button class="btn btn-danger btn-sm">
+            Logout
+          </button>
+        </form>
+
+      {% else %}
+
+        <a href="{% url 'login' %}"
+           class="btn btn-outline-dark btn-sm">
+           Login
+        </a>
+
+        <a href="{% url 'register' %}"
+           class="btn btn-primary btn-sm">
+           Get Started
+        </a>
+
+      {% endif %}
+
     </div>
+  </div>
 </nav>
+
 
 <!-- Page Content -->
 <div class="container mt-5">
     {% block content %}
     {% endblock %}
 </div>
+
+<!-- Footer -->
+<footer class="footer mt-5">
+
+  <div class="container py-4">
+    <hr>
+    <div class="text-center small text-muted color-primary">
+      © 2026 JobPortal. All rights reserved.
+    </div>
+
+  </div>
+
+</footer>
+
 
 </body>
 </html>

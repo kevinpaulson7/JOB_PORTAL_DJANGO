@@ -1,50 +1,77 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h3>Applicants for {{ job.title }}</h3>
+<div class="container mt-5">
 
-{% for app in applications %}
-<div class="card p-3 mb-3">
+  <h2 class="fw-bold mb-4 text-center">
+    Applicants for {{ job.title }}
+  </h2>
 
-    <strong>{{ app.user.username }}</strong>
+  <div class="row">
 
-    <p>Applied {{ app.applied_at|timesince }} ago</p>
+    {% for app in applications %}
+    <div class="col-md-6 mb-4">
 
-    <p>
-        Status:
-        <strong>{{ app.status }}</strong>
-    </p>
+      <div class="applicant-card p-4">
 
-    {% if app.status == "Applied" %}
+        <div class="d-flex justify-content-between align-items-center">
 
-        <a href="{% url 'update_application_status' app.id 'Accepted' %}"
-           class="btn btn-success btn-sm">
-           Accept
-        </a>
+          <div>
+            <h5 class="fw-semibold mb-1">
+              {{ app.user.username }}
+            </h5>
 
-        <a href="{% url 'update_application_status' app.id 'Rejected' %}"
-           class="btn btn-danger btn-sm">
-           Reject
-        </a>
+            <small class="text-muted">
+              Applied {{ app.applied_at|timesince }} ago
+            </small>
+          </div>
 
-    {% elif app.status == "Accepted" %}
+          <!-- Status Badge -->
+          {% if app.status == "Applied" %}
+            <span class="badge bg-secondary">
+              Applied
+            </span>
+          {% elif app.status == "Accepted" %}
+            <span class="badge bg-success">
+              Accepted ✓
+            </span>
+          {% else %}
+            <span class="badge bg-danger">
+              Rejected ✗
+            </span>
+          {% endif %}
 
-        <button class="btn btn-success btn-sm" disabled>
-            Accepted ✓
-        </button>
+        </div>
 
-    {% else %}
+        <hr>
 
-        <button class="btn btn-danger btn-sm" disabled>
-            Rejected ✗
-        </button>
+        <div class="d-flex justify-content-end gap-2">
 
-    {% endif %}
+          {% if app.status == "Applied" %}
+
+            <a href="{% url 'update_application_status' app.id 'Accepted' %}"
+               class="btn btn-success btn-sm">
+               Accept
+            </a>
+
+            <a href="{% url 'update_application_status' app.id 'Rejected' %}"
+               class="btn btn-outline-danger btn-sm">
+               Reject
+            </a>
+
+          {% endif %}
+
+        </div>
+
+      </div>
+
+    </div>
+    {% empty %}
+      <p class="text-center">No applications yet.</p>
+    {% endfor %}
+
+  </div>
 
 </div>
-
-{% empty %}
-<p>No applications yet.</p>
-{% endfor %}
 
 {% endblock %}

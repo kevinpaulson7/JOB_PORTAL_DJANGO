@@ -82,3 +82,126 @@
 .primary-btn:hover {
     opacity: 0.95;
 }
+
+body {
+    background: linear-gradient(to right, #b033ee, #4e73df);
+}
+
+.custom-navbar {
+    background: white;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+
+
+/* HERO SECTION */
+.hero-section {
+    padding: 100px 20px;
+    background: linear-gradient(135deg, #4e73df, #1cc88a);
+    color: white;
+}
+
+.hero-section h1 {
+    font-weight: 700;
+}
+
+.hero-section .btn-primary {
+    background-color: white;
+    color: #4e73df;
+    border: none;
+}
+
+.hero-section .btn-outline-dark {
+    border-color: white;
+    color: white;
+}
+
+.hero-section .btn-outline-dark:hover {
+    background: white;
+    color: #4e73df;
+}
+
+/* FEATURE SECTION */
+.features-section {
+    background: rgb(166, 240, 109);
+}
+
+
+.job-card {
+    background: rgba(255, 255, 255, 0.84);
+    border-radius: 16px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.job-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+.job-title {
+    text-decoration: none;
+    color: #2c2c2c;
+}
+
+.job-title:hover {
+    color: #4e73df;
+}
+
+.footer {
+    padding-top: 10px;
+    background: rgba(255, 255, 255, 0);
+    border-top: 0px solid #eaeaea;
+}
+
+.footer-link {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+}
+
+
+.job-detail-card {
+    background: rgba(255, 255, 255, 0.842);
+    border-radius: 18px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    max-width: 800px;
+    margin: auto;
+    transition: 0.3s ease;
+}
+
+.apply-btn {
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.apply-btn:hover {
+    transform: scale(1.02);
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    transition: 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.15);
+}
+
+.applicant-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    transition: 0.3s ease;
+}
+
+.applicant-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.15);
+}
