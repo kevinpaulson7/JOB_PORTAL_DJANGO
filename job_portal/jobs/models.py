@@ -29,6 +29,11 @@ class Job(models.Model):
     description = models.TextField()
     salary = models.CharField(max_length=100, blank=True)
 
+    required_skills = models.TextField(
+        blank=True,
+        help_text="Comma separated skills (e.g. Python, Django, SQL)"
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     application_deadline = models.DateField(null=True, blank=True)
 

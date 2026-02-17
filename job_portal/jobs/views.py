@@ -95,6 +95,33 @@ def view_applicants(request, job_id):
 
     applications = Application.objects.filter(job=job)
 
+    # Skill Matching Logic
+    for app in applications:
+
+        # Job skills
+        job_skills = []
+        if job.required_skills:
+            job_skills = [
+                s.strip().lower()
+                for s in job.required_skills.split(",")
+            ]
+
+        # User skills
+        user_skills = []
+        if hasattr(app.user, "userprofile") and app.user.userprofile.skills:
+            user_skills = [
+                s.strip().lower()
+                for s in app.user.userprofile.skills.split(",")
+            ]
+
+        # Matching
+        matched = set(job_skills).intersection(set(user_skills))
+
+        app.match_percentage = (
+            int(len(matched) / len(job_skills) * 100)
+            if job_skills else 0
+        )
+
     return render(
         request,
         "jobs/applicants.html",

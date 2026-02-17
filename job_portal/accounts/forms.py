@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser
-
+from .models import UserProfile
 
 class RegisterForm(UserCreationForm):
     class Meta:
@@ -29,5 +29,20 @@ class RegisterForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs["class"] = "form-control"
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ["skills", "resume"]
+
+        widgets = {
+            "skills": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 3,
+                    "placeholder": "Python, Django, SQL"
+                }
+            ),
+        }
 
 

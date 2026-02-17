@@ -12,6 +12,7 @@ class JobForm(forms.ModelForm):
             "job_type",
             "description",
             "salary",
+            "required_skills",
             "application_deadline"
         ]
 
@@ -41,6 +42,11 @@ class JobForm(forms.ModelForm):
                 "class": "form-control",
                 "rows": 5,
                 "placeholder": "Describe the job role..."
+            }),
+            "required_skills": forms.Textarea(attrs={
+                "class": "form-control",
+                "rows": 3,
+                "placeholder": "List required skills (comma separated)"
             }),
             "application_deadline": forms.DateInput(attrs={
                 "class": "form-control",

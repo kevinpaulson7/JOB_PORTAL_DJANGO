@@ -4,6 +4,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 from .forms import RegisterForm
 from django.urls import reverse_lazy
 
+from django.contrib.auth.decorators import login_required
+from .forms import ProfileForm
+
+from .models import UserProfile
 
 def register(request):
     if request.method == "POST":
@@ -32,3 +36,33 @@ class UserLoginView(LoginView):
 
 class UserLogoutView(LogoutView):
     next_page = "login"
+
+@login_required
+def profile_view(request):
+
+    # 🚫 Prevent recruiters from accessing profile page
+    if request.user.role == "recruiter":
+        return redirect("recruiter_dashboard")
+
+    # Ensure profile exists
+    profile, created = UserProfile.objects.get_or_create(
+        user=request.user
+    )
+
+    if request.method == "POST":
+        form = ProfileForm(
+            request.POST,
+            request.FILES,
+            instance=profile
+        )
+        if form.is_valid():
+            form.save()
+            return redirect("profile")  # optional refresh after save
+    else:
+        form = ProfileForm(instance=profile)
+
+    return render(
+        request,
+        "accounts/profile.html",
+        {"form": form}
+    )

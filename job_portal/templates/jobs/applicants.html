@@ -1,25 +1,17 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
 <div class="container mt-5">
-
-  <h2 class="fw-bold mb-4 text-center">
-    Applicants for {{ job.title }}
-  </h2>
+  <h2 class="fw-bold mb-4 text-center">Applicants for {{ job.title }}</h2>
 
   <div class="row">
-
     {% for app in applications %}
     <div class="col-md-6 mb-4">
-
       <div class="applicant-card p-4">
-
-        <div class="d-flex justify-content-between align-items-center">
-
+        <div class="d-flex justify-content-between align-items-start">
           <div>
-            <h5 class="fw-semibold mb-1">
-              {{ app.user.username }}
-            </h5>
+            <h5 class="fw-semibold mb-1">{{ app.user.username }}</h5>
+
+            <p class="text-muted mb-1">{{ app.user.email }}</p>
 
             <small class="text-muted">
               Applied {{ app.applied_at|timesince }} ago
@@ -28,50 +20,72 @@
 
           <!-- Status Badge -->
           {% if app.status == "Applied" %}
-            <span class="badge bg-secondary">
-              Applied
-            </span>
+          <span class="badge bg-secondary"> Applied </span>
           {% elif app.status == "Accepted" %}
-            <span class="badge bg-success">
-              Accepted ✓
-            </span>
+          <span class="badge bg-success"> Accepted ✓ </span>
           {% else %}
-            <span class="badge bg-danger">
-              Rejected ✗
-            </span>
+          <span class="badge bg-danger"> Rejected ✗ </span>
           {% endif %}
-
         </div>
 
-        <hr>
+        <hr />
+
+        <!-- Skill Match Section -->
+        {% if app.match_percentage %}
+        <div class="mb-3">
+          <small class="text-muted">Skill Match:</small>
+          <div class="progress" style="height: 8px">
+            <div
+              class="progress-bar bg-info"
+              role="progressbar"
+              style="width: {{ app.match_percentage }}%;"
+            ></div>
+          </div>
+          <small class="text-muted"> {{ app.match_percentage }}% </small>
+        </div>
+        {% endif %}
 
         <div class="d-flex justify-content-end gap-2">
 
-          {% if app.status == "Applied" %}
-
-            <a href="{% url 'update_application_status' app.id 'Accepted' %}"
-               class="btn btn-success btn-sm">
-               Accept
-            </a>
-
-            <a href="{% url 'update_application_status' app.id 'Rejected' %}"
-               class="btn btn-outline-danger btn-sm">
-               Reject
-            </a>
-
+          <!-- Resume Button -->
+          {% if app.user.userprofile.resume %}
+          <a
+            href="{{ app.user.userprofile.resume.url }}"
+            class="btn btn-outline-primary btn-sm"
+            target="_blank"
+          >
+            View Resume
+          </a>
           {% endif %}
 
+          <div class="d-flex gap-2">
+            {% if app.status == "Applied" %}
+
+            <a
+              href="{% url 'update_application_status' app.id 'Accepted' %}"
+              class="btn btn-success btn-sm"
+            >
+              Accept
+            </a>
+
+            <a
+              href="{% url 'update_application_status' app.id 'Rejected' %}"
+              class="btn btn-outline-danger btn-sm"
+            >
+              Reject
+            </a>
+
+            {% endif %}
+          </div>
+          
         </div>
-
       </div>
-
     </div>
+
     {% empty %}
-      <p class="text-center">No applications yet.</p>
+    <p class="text-center">No applications yet.</p>
     {% endfor %}
-
   </div>
-
 </div>
 
 {% endblock %}
